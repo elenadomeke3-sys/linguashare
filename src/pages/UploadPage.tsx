@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/Card";
-import { Upload, FileText, X, CheckCircle2, Sparkles, Loader2 } from "lucide-react";
+import { Upload, FileText, X, CheckCircle2, Loader2 } from "lucide-react";
 
 const LANGUAGES = [
   { value: "angielski", label: "Angielski" },
@@ -249,11 +249,11 @@ export default function UploadPage() {
                   />
                 </div>
 
-                <div className="grid sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Język *</label>
                     <select
-                      className="h-10 rounded-md border border-input bg-background px-3 py-2"
+                      className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                       value={formData.language}
                       onChange={(e) =>
                         setFormData({ ...formData, language: e.target.value })
@@ -276,20 +276,26 @@ export default function UploadPage() {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="h-6 text-xs text-muted-foreground"
+                        className="h-6 text-[10px] leading-tight text-muted-foreground whitespace-nowrap px-2"
                         onClick={() => {
                           if (!formData.title) {
                             alert("Najpierw wpisz tytuł materiału");
                             return;
                           }
-                           setIsAutoTagging(true);
+                          setIsAutoTagging(true);
                           setTimeout(() => {
                             const tags = autoDetectTags(formData.title);
                             if (tags.level) {
-                              setFormData(prev => ({ ...prev, level: tags.level }));
+                              setFormData((prev) => ({
+                                ...prev,
+                                level: tags.level,
+                              }));
                             }
                             if (tags.type) {
-                              setFormData(prev => ({ ...prev, type: tags.type }));
+                              setFormData((prev) => ({
+                                ...prev,
+                                type: tags.type,
+                              }));
                             }
                             setIsAutoTagging(false);
                           }, 500);
@@ -299,15 +305,12 @@ export default function UploadPage() {
                         {isAutoTagging ? (
                           <Loader2 className="h-3 w-3 animate-spin" />
                         ) : (
-                          <>
-                            <Sparkles className="h-3 w-3 mr-1" />
-                            Auto
-                          </>
+                          "Auto"
                         )}
                       </Button>
                     </div>
                     <select
-                      className="h-10 rounded-md border border-input bg-background px-3 py-2"
+                      className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                       value={formData.level}
                       onChange={(e) =>
                         setFormData({ ...formData, level: e.target.value })
@@ -326,7 +329,7 @@ export default function UploadPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Typ *</label>
                     <select
-                      className="h-10 rounded-md border border-input bg-background px-3 py-2"
+                      className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                       value={formData.type}
                       onChange={(e) =>
                         setFormData({ ...formData, type: e.target.value })
